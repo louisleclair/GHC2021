@@ -57,6 +57,40 @@ for k, v in dict_inter.items():
     for k1, v1 in v.items():
         final_dict[k][k1] = 1 if int(time*dict_inter[k][k1]/total) == 0 else int(time*dict_inter[k][k1]/total)
 
+###############################################################################################
+
+
+street_name = set()
+
+for car in cars:
+    for k in range(1, len(car)-1):
+        street_name.add(car[k])
+
+dict_vide = {}
+
+for name in street_name:
+    dict_vide[name] = [0, 0]
+
+for car in cars:
+    total = len(car)-1
+    i = 0
+    for k in range(1, len(car)-1):
+        dict_vide[car[k]][0] = i/total
+        dict_vide[car[k]][1] += 1
+        i += 1
+
+dict_place = {}
+for k, v in dict_vide.items():
+    dict_place[k] = v[0]/v[1]
+
+###############################################################################################
+
+tmp = []
+
+for k, v in dict_place.items():
+    tmp.append((v, k))
+
+tmp = sorted(tmp)
 popKey = []
 
 for k,v in final_dict.items():
@@ -75,8 +109,7 @@ for k, v in final_dict.items():
     out.write('\n')
     out.write(str(len(v)))
     out.write('\n')
-    for k1, v1 in v.items():
-        out.write(str(k1) + " " + str(v1))
-        out.write('\n')
-
-
+    for i, j in tmp:
+        if j in v.keys():
+            out.write(str(j) + " " + str(v[j]))
+            out.write('\n')
